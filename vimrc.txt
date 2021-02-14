@@ -1,0 +1,251 @@
+" Vundle set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'gdbmgr'
+Plugin 'The-NERD-Tree' " 目录树
+Plugin 'mbbill/undotree' " 撤回树
+Plugin 'majutsushi/tagbar' " 函数、变量名
+Plugin 'vim-airline/vim-airline' " 状态栏
+Plugin 'vim-airline/vim-airline-themes' "状态栏
+Plugin 'arzg/vim-colors-xcode'  " xcode 主题
+"Plugin 'cohlin/vim-colorschemes' " xcode 主题
+Plugin 'tomasr/molokai' " molokai 主题
+Plugin 'ashfinal/vim-colors-violet' " violet 主题
+Plugin 'joshdick/onedark.vim' " onedark主题
+Plugin 'sheerun/vim-polyglot' " 语法突出显示
+Plugin 'jiangmiao/auto-pairs' " 括号补全
+Plugin 'iamcco/mathjax-support-for-mkdp' " 数学公式
+Plugin 'plasticboy/vim-markdown'  " markdown预览
+Plugin 'iamcco/markdown-preview.vim' " markdown预览
+Plugin 'Valloric/YouCompleteMe' " 代码补全
+Plugin 'zxqfl/tabnine-vim' "代码补全
+Plugin 'tpope/vim-commentary' " 代码注释
+Plugin 'sillybun/vim-repl'   " 代码调试
+Plugin 'w0rp/ale' " 语法纠错
+"Plugin 'octol/vim-cpp-enhanced-highlight' " c++语法高亮
+Plugin 'TagHighlight' " c++语法高亮
+Plugin 'Shougo/echodoc.vim' " c++函数提示
+Plugin 'rhysd/vim-clang-format' " 代码格式化
+Plugin 'Chiel92/vim-autoformat' " c++代码格式化
+Plugin 'scrooloose/nerdcommenter' " c++代码注释
+Plugin 'artur-shaik/vim-javacomplete2' " java代码补全
+Plugin 'python-mode/python-mode'  " python mode
+Plugin 'fatih/vim-go'  " go语言
+Plugin 'terryma/vim-multiple-cursors' " vim 多行编辑
+Plugin 'mhinz/vim-startify' " 欢迎界面
+call vundle#end()
+filetype plugin indent on
+
+set backspace=2
+
+" javacomplete2
+" https://github.com/artur-shaik/vim-javacomplete2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+
+
+
+"   TagHighlight
+" UpdateTypesFile
+
+
+"multiple cursors
+"start: <C-n> start multicursor and add a virtual cursor + selection on the match
+"next: <C-n> add a new virtual cursor + selection on the next match
+"skip: <C-x> skip the next match
+"prev: <C-p> remove current virtual cursor + selection and go back on previous match
+"select all: <A-n> start multicursor and directly select all matches
+
+" plugin nerdcommenter
+let mapleader = ","
+let NERDSpaceDelims=1           " 让注释符与语句之间留一个空格
+let g:NERDDefaultAlign = 'left'  "将行注释符左对齐
+
+" auto save
+" let g:auto_save = 5  " enable AutoSave on Vim startup
+
+" plugin undotree
+" :UndotreeToggle
+
+" plugin NERDTree
+" :NERDTreeToggle
+
+" plugin tarbar
+" :TagbarToggle
+"
+" plugin autoformat
+" :Autoformat
+let g:autoformat_verbosemode=1 "开启详细模式便于查错
+" c++
+let g:formatdef_clangformat_google = '"clang-format -style google -"'
+let g:formatters_cpp = ['clangformat_google']
+" python
+let g:formatdef_autopep8 = "'autopep8 - --range '.a:firstline.' '.a:lastline"
+let g:formatters_python = ['autopep8']
+" java
+let g:formatdef_astyle_java = '"astyle --mode=java --style=google -pcHs2"'
+let g:formatdef_java = ['astyle_java']
+
+" plugin echodoc
+let g:echodoc#type = "echo" " Default value
+set noshowmode
+let g:echodoc_enable_at_startup = 1
+
+" plugin YCM
+"let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+"set completeopt=menu
+" YouCompleteMe
+set runtimepath+=~/.vim/bundle/YouCompleteMe
+set runtimepath+=~/.vim/bundle/tabnine-vim
+set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+let g:ycm_collect_identifiers_from_tags_files = 1           " 开启 YCM 基于标签引擎
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释与字符串中的内容也用于补全
+let g:syntastic_ignore_files=[".*\.py$"]
+let g:ycm_seed_identifiers_with_syntax = 1                  " 语法关键字补全
+let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']  " 映射按键, 没有这个会拦截掉tab, 导致其他插件的tab不能用.
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+let g:ycm_complete_in_comments = 1                          " 在注释输入中也能补全
+let g:ycm_complete_in_strings = 1                           " 在字符串输入中也能补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释和字符串中的文字也会被收入补全
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 0                           " 禁用语法检查
+" 回车即选中当前项
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>" |
+" 跳转到定义处
+nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>|
+let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入字符就开始罗列匹配项
+
+"disable ycm 语法检查
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_error_symbol = 'K'
+let g:ycm_warning_symbol = 'O'
+" plugin vim-markdown 自动折叠关闭
+let g:vim_markdown_folding_disabled=1
+
+"auto-format 格式化
+"F5自动格式化代码并保存
+"自动格式化代码，针对所有支持的文件
+"au BufWrite * :Autoformat
+"自动格式化python代码
+"au BufWrite *.py :Autoformatet g:autoformat_verbosemode=1
+"默认情况下是pep8，还可以选择google,facebook和chromium
+"let g:formatter_yapf_style = 'google'
+"let g:formatdef_my_cpp = '"astyle --style=webkit"'
+"let g:formatters_cpp = ['my_cpp']
+"au BufWrite * :Autoformat
+
+" 代码调试快捷键
+autocmd Filetype python nnoremap <F12> <Esc>:REPLDebugStopAtCurrentLine<Cr>
+autocmd Filetype python nnoremap <F10> <Esc>:REPLPDBN<Cr>
+autocmd Filetype python nnoremap <F11> <Esc>:REPLPDBS<Cr>
+
+
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("clangd")
+
+"目录树
+map <F2> :NERDTreeToggle<CR>
+
+"Python缩进
+autocmd FileType python set tabstop=4 | set expandtab | set autoindent
+
+" plugin airline
+set laststatus=2
+
+" plugin ale
+let g:ale_linters = {
+      \   'cpp': ['gcc'],
+      \}
+"始终开启标志列
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 0
+let g:ale_echo_msg_format = 'ale[%linter%] %code: %%s'
+let g:ale_cpp_gcc_executable = '/usr/local/bin/g++-9 -I /usr/local/Cellar/gcc@9/9.3.0/include/c++/9.3.0'
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+let g:ale_lint_on_text_changed = 'always'
+
+" 语法高亮
+let c_no_curly_error = 1
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_simple_template_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+"let g:cpp_no_function_highlight=1
+syntax on
+
+" 主题
+"colorscheme xcode-default
+"colorscheme molokai
+"colorscheme violet
+colorscheme onedark
+let g:rehash256 = 1
+set cursorline    "or set cul 设置光标所在的行
+
+set et "tab用空格替换
+
+set tabstop=2
+set expandtab
+" Tab键的宽度
+
+set softtabstop=2
+set shiftwidth=2
+"  统一缩进为2
+
+set number
+" 显示行号
+
+set history=10000
+" 历史纪录数
+
+set hlsearch
+set incsearch
+" 搜索逐字符高亮
+
+set encoding=utf-8
+set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936,utf-16,big5,euc-jp,latin1
+" 编码设置
+
+" set mouse=a
+" use mouse
+
+set langmenu=zn_CN.UTF-8
+set helplang=cn
+" 语言设置
+
+set laststatus=2
+" 总是显示状态行 就是那些显示 --insert-- 的怪东西
+
+set showcmd
+" 在状态行显示目前所执行的命令，未完成的指令片段亦会显示出来
+
+set scrolloff=3
+" 光标移动到buffer的顶部和底部时保持3行距离
+
+set showmatch
+" 高亮显示对应的括号
+
+set matchtime=1
+" 对应括号高亮的时间（单位是十分之一秒）
+
+" 共享剪切板
+set clipboard=unnamed
+set norelativenumber
+
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+" c++ 路径
+set path=.,/usr/local/bin/g++-9,/usr/local/include/c++/9.3.0,/usr/local/Cellar/eigen/3.3.7/include/eigen3,/usr/local/Cellar/boost/1.72.0/include,/usr/local/Cellar/gcc/9.2.0_1/include/c++/9.2.0,/usr/local/Cellar/gcc/9.2.0_1/include/c++/9.2.0/x86_64-apple-darwin19,/usr/local/Cellar/gcc/9.2.0_1/include/c++/9.2.0/backward,/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include,/usr/local/Cellar/gcc/9.2.0_1/lib/gcc/9/gcc/x86_64-apple-darwin19/9.2.0/include-fixed,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks,
